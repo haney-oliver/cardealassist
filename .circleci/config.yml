@@ -1,0 +1,15 @@
+version: "2.1"
+orbs:
+  orb-etc: etc/orb-etc@dev:560bd5fcce87695a6f425281747301bad260e42f
+jobs:
+  build:
+    executor:
+      name: orb-etc/docker
+    steps:
+      - orb-etc/standard_build
+workflows:
+  Pipeline:
+    jobs:
+      - build:
+          context:
+            - prod
