@@ -10,7 +10,6 @@ class Database:
     def __init__(self):
         self.engine = create_engine(DATABASE_URL, echo=False)
         self.Session = sessionmaker(bind=self.engine)
-        self.inspector = inspect(self.engine)
 
     def create_tables(self, base):
         base.metadata.create_all(self.engine)
@@ -20,6 +19,3 @@ class Database:
 
     def get_engine(self):
         return self.engine
-
-    def get_inspector(self):
-        return self.inspector
