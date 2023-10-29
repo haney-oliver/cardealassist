@@ -1,4 +1,4 @@
-# api-example
+# api-cardealassist
 
 ## Create a virtual environment for this app
 
@@ -27,17 +27,17 @@ Then activate your virtual environment and bind it to your working directory:
 source ~/.zshrc
 
 pyenv install -v 3.10.5
-pyenv virtualenv 3.10.5 api-example
+pyenv virtualenv 3.10.5 api-cardealassist
 
 # Automatically select the correct venv when you're in this directory:
-pyenv local api-example
+pyenv local api-cardealassist
 
 # Verify that your env is setup correctly
 pyenv versions
 python --version
 
-# If the api-example venv is not selected, run the following
-pyenv activate api-example
+# If the api-cardealassist venv is not selected, run the following
+pyenv activate api-cardealassist
 
 # Install dev dependencies if you intend to edit this script
 pip install flake8 black
@@ -54,7 +54,7 @@ Select `Python: Select Interpreter`
 
 Select `Enter interpreter path...`
 
-Then enter `~/.pyenv/versions/3.10.5/envs/api-example/bin/python`
+Then enter `~/.pyenv/versions/3.10.5/envs/api-cardealassist/bin/python`
 
 All of your dependencies should be supported by python interpreter.
 
@@ -63,10 +63,9 @@ All of your dependencies should be supported by python interpreter.
 uvicorn app:app --reload
 
 # Run in Docker container
-docker build -t api-example .
-docker run -it api-example -p 8080:8080
+docker build -t api-cardealassist .
+docker run -it api-cardealassist -p 8080:8080
 
-# Push to registry
-docker tag api-example:latest registry.everythingisacomputer.io/api-example:latest
-docker push registry.everythingisacomputer.io/api-example:latest
+# Build and push to registry
+./build_and_push.sh
 ```

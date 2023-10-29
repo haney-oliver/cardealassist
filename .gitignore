@@ -2,7 +2,10 @@
 __pycache__/
 *.py[cod]
 *$py.class
-
+.python-version
+*.json
+*.yaml
+*__pycache__
 # C extensions
 *.so
 
