@@ -1,5 +1,5 @@
 from pydantic import BaseModel
-
+from dataclasses import dataclass
 
 class ListCarsRequest(BaseModel):
     page: int
@@ -11,7 +11,7 @@ class ListCarsResponse(BaseModel):
     message: str
     cars: list[str]
 
-
+@dataclass
 class CarDTO(BaseModel):
     id: str
     details_path: str = None

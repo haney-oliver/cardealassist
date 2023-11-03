@@ -1,21 +1,19 @@
 from sqlalchemy import create_engine, inspect
 from sqlalchemy.orm import sessionmaker
 from util.config import settings
+from pymongo import MongoClient
 
 print(f"\nSettings:\n{settings.__dict__}\n\n")
-DATABASE_URL = f"mysql+pymysql://{settings.databaseUser}:{settings.databasePassword}@{settings.databaseHost}:3307/{settings.databaseName}"
+DATABASE_URL = f"mongodb+srv://{settings.databaseUser}:{settings.databasePassword}@{settings.databaseHost}/{settings.databaseName}"
 
 
-class Database:
+
+class MongoDatabaseClient:
     def __init__(self):
-        self.engine = create_engine(DATABASE_URL, echo=False)
-        self.Session = sessionmaker(bind=self.engine)
+        self.mongodb_client = MongoClient(DATABASE_URL)
 
-    def create_tables(self, base):
-        base.metadata.create_all(self.engine)
+    def fetch_collection(self, collection_name):
+        return self.mongodb_client[collection_name]
 
-    def get_session(self):
-        return self.Session()
+    
 
-    def get_engine(self):
-        return self.engine
