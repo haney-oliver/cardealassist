@@ -1,7 +1,7 @@
 from fastapi import FastAPI, Request
 from fastapi.openapi.docs import get_swagger_ui_html
 from fastapi.responses import HTMLResponse
-from fastapi.templating import Jinja2Templates
+from fastapi.middleware.cors import CORSMiddleware
 from util.logging_utils import logger, get_extra_info
 from pathlib import Path
 from routing.admin_router import admin_router
@@ -14,6 +14,15 @@ app = FastAPI()
 app.include_router(admin_router)
 app.include_router(public_router)
 
+origins = ["*"]
+
+app.add_middleware(
+    CORSMiddleware,
+    allow_origins=origins,
+    allow_credentials=True,
+    allow_methods=["*"],
+    allow_headers=["*"],
+)
 
 
 @app.get("/docs", include_in_schema=False)
@@ -31,6 +40,6 @@ async def log_request(request, call_next):
     response = await call_next(request)
     logger.info(
         request.method + " " + request.url.path,
-        extra={"extra_info": get_extra_info(request, response)},
+        extra={"extra_info": get_extra_info(request)},
     )
     return response

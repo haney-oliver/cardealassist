@@ -6,6 +6,7 @@ from fastapi.security import OAuth2PasswordBearer
 from starlette.config import Config
 from logic import cars
 from db.db import DatabaseClient
+from util.logging_utils import logger
 
 public_router = APIRouter(prefix="/public")
 oauth2_scheme = OAuth2PasswordBearer(tokenUrl="token")
@@ -33,6 +34,7 @@ def login():
 
 @public_router.post("/v1/cars/list", response_model=ListCarsResponse)
 async def list_cars(req: ListCarsRequest):
+    logger.info(f"List cars request:\n{req}")
     return await cars.list_cars(req, db["cardata"])
 
 @public_router.post("/v1/cars/get", response_model=GetCarResponse)
