@@ -18,12 +18,11 @@ app.include_router(public_router)
 app.mount("/static", StaticFiles(directory="static"), name="static")
 templates = Jinja2Templates(directory="html")
 
-db_client = DatabaseClient()
+
 
 @app.get("/", include_in_schema=False)
 async def home(req: Request):
-    cars = await list_cars(req, db_client.fetch_collection('cardata'))
-    return templates.TemplateResponse("public/home/homepage.html", {"request": req})
+    return templates.TemplateResponse("index.html", {"request": req})
 
 
 @app.get("/docs", include_in_schema=False)
