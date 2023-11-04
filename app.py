@@ -1,7 +1,6 @@
 from fastapi import FastAPI, Request
 from fastapi.openapi.docs import get_swagger_ui_html
 from fastapi.responses import HTMLResponse
-from fastapi.staticfiles import StaticFiles
 from fastapi.templating import Jinja2Templates
 from util.logging_utils import logger, get_extra_info
 from pathlib import Path
@@ -15,14 +14,6 @@ app = FastAPI()
 app.include_router(admin_router)
 app.include_router(public_router)
 
-app.mount("/static", StaticFiles(directory="static"), name="static")
-templates = Jinja2Templates(directory="html")
-
-
-
-@app.get("/", include_in_schema=False)
-async def home(req: Request):
-    return templates.TemplateResponse("index.html", {"request": req})
 
 
 @app.get("/docs", include_in_schema=False)
