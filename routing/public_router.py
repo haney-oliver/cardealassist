@@ -31,10 +31,10 @@ def login():
     return {"message": "Service healthy!", "ok": True}
 
 
-@public_router.get("/v1/cars/list", response_model=ListCarsResponse)
+@public_router.post("/v1/cars/list", response_model=ListCarsResponse)
 async def list_cars(req: ListCarsRequest):
     return await cars.list_cars(req, db["cardata"])
 
-@public_router.get("/v1/cars/get", response_model=GetCarResponse)
+@public_router.post("/v1/cars/get", response_model=GetCarResponse)
 async def list_cars(req: GetCarRequest):
     return await cars.get_car(req, db["cardata"])
