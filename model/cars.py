@@ -22,7 +22,7 @@ class CarDTO(BaseModel):
     source: Optional[str] = None
     title: Optional[str] = None
     vin: Optional[str] = None
-    image: Optional[str] = None
+    images: Optional[list[str]] = None
     seller: SellerDTO
 
 
