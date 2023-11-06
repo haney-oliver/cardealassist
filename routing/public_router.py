@@ -1,6 +1,11 @@
 from fastapi import APIRouter
 from model.service_healthcheck import HealthcheckResponse
-from model.cars import GetCarRequest, GetCarResponse, PaginationRequest, ListCarsResponse
+from model.cars import (
+    GetCarRequest,
+    GetCarResponse,
+    PaginationRequest,
+    ListCarsResponse,
+)
 from fastapi import Depends, FastAPI, HTTPException, Request
 from fastapi.security import OAuth2PasswordBearer
 from starlette.config import Config
@@ -13,6 +18,7 @@ oauth2_scheme = OAuth2PasswordBearer(tokenUrl="token")
 
 db_client = DatabaseClient()
 db = db_client.fetch_database("api-cardealassist")
+
 
 @public_router.get("/v1/healthz", response_model=HealthcheckResponse)
 def healthcheck():
@@ -36,6 +42,7 @@ def login():
 async def list_cars(req: PaginationRequest):
     logger.info(f"List cars request:\n{req}")
     return await cars.list_cars(req, db["cardata"])
+
 
 @public_router.post("/v1/cars/get", response_model=GetCarResponse)
 async def list_cars(req: GetCarRequest):

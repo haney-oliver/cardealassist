@@ -59,7 +59,9 @@ class CustomFormatter(logging.Formatter):
             return json.dumps(get_access_log(record), indent=2)
 
 
-def get_extra_info(request: Request, response: Response = None) -> dict[str, dict[str, Any]]:
+def get_extra_info(
+    request: Request, response: Response = None
+) -> dict[str, dict[str, Any]]:
     return {
         "req": {
             "url": request.url.path,

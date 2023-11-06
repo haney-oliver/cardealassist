@@ -30,9 +30,11 @@ class Response(BaseModel):
     ok: bool
     message: str
 
+
 class Filter(BaseModel):
     query: dict
     sort: Optional[list] = None
+
 
 class PaginationRequest(BaseModel):
     size: int
