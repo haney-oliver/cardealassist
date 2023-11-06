@@ -1,18 +1,32 @@
 import requests
 from util.logging_utils import logger
 from model.cars import (
-    ListCarsRequest,
+    PaginationRequest,
     ListCarsResponse,
     CarDTO,
     GetCarRequest,
     GetCarResponse,
 )
 from sqlalchemy import select
+import json
 
 
-async def list_cars(req: ListCarsRequest, collection) -> ListCarsResponse:
-    cars = collection.find(req.filter)
-    return ListCarsResponse(cars=[CarDTO(**car) for car in cars], ok=True, message="Successfully fetched cars.")
+async def list_cars(req: PaginationRequest, collection) -> ListCarsResponse:
+    limit = req.size
+    page = req.page
+    if req.filter:
+        query = req.filter.query
+        sort = req.filter.sort if req.filter.sort else None
+    else:
+        query = {}
+        sort = None
+    total = collection.count_documents(query) 
+    if sort:
+        cars = collection.find(filter=query, skip=page*limit).limit(limit).sort([sort])
+    else:
+        cars = collection.find(filter=query, skip=page*limit).limit(limit)
+    cars = list(cars)
+    return ListCarsResponse(cars=[CarDTO(**car) for car in cars],  total=total, count=len(cars), ok=True, message="Successfully fetched cars.")
 
 
 async def get_car(req: GetCarRequest, collection) -> GetCarResponse:

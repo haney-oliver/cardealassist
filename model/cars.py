@@ -30,11 +30,14 @@ class Response(BaseModel):
     ok: bool
     message: str
 
+class Filter(BaseModel):
+    query: dict
+    sort: Optional[list] = None
 
-class ListCarsRequest(BaseModel):
-    page: int
+class PaginationRequest(BaseModel):
     size: int
-    filter: Optional[dict[str, str]] = None
+    page: int
+    filter: Optional[Filter] = None
 
 
 class GetCarRequest(BaseModel):
@@ -47,4 +50,6 @@ class GetCarResponse(Response):
 
 
 class ListCarsResponse(Response):
+    total: int
+    count: int
     cars: list[CarDTO] = None
