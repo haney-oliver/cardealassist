@@ -1,6 +1,6 @@
-from pydantic import BaseModel
+from model.base import Base
 
 
-class HealthcheckResponse(BaseModel):
+class HealthcheckResponse(Base):
     ok: bool
     message: str

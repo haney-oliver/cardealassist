@@ -1,9 +1,8 @@
-from pydantic import BaseModel
+from model.base import Base
 
-
-class AdminRequest(BaseModel):
+class AdminRequest(Base):
     flag: bool
 
 
-class AdminResponse(BaseModel):
+class AdminResponse(Base):
     message: str

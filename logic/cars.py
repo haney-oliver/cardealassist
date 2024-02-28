@@ -7,15 +7,21 @@ from model.cars import (
     GetCarRequest,
     GetCarResponse,
 )
-from sqlalchemy import select
-import json
 
 
 async def list_cars(req: PaginationRequest, collection) -> ListCarsResponse:
     limit = req.size
     page = req.page
     if req.filter:
-        query = req.filter.query
+        query = {}
+        if req.filter.make:
+            query["make"] = req.filter.make
+        if req.filter.model:
+            query["model"] = req.filter.model
+        if req.filter.max_amount:
+            query["price"] = {"$lt": req.filter.max_amount}
+        if req.filter.year:
+            query["year"] = req.filter.year
         sort = req.filter.sort if req.filter.sort else None
     else:
         query = {}
@@ -23,13 +29,22 @@ async def list_cars(req: PaginationRequest, collection) -> ListCarsResponse:
     total = collection.count_documents(query)
     if sort:
         cars = (
-            collection.find(filter=query, skip=page * limit).limit(limit).sort([sort])
+            collection.find(filter=query, skip=page * limit)
+            .limit(limit)
+            .sort([sort])
         )
     else:
         cars = collection.find(filter=query, skip=page * limit).limit(limit)
     cars = list(cars)
+    cars = [CarDTO(**car) for car in cars]
+    for car in cars:
+        rating_sum: int = 0
+        if len(car.reviews) > 0:
+            for review in car.reviews:
+                rating_sum += review.rating
+            car.average_rating = rating_sum / len(car.reviews)
     return ListCarsResponse(
-        cars=[CarDTO(**car) for car in cars],
+        cars=cars,
         total=total,
         count=len(cars),
         ok=True,
