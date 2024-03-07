@@ -4,11 +4,11 @@ from model.base import Base
 
 
 class AppraisalRequest(Base):
-    year: int
+    year: str
     make: str
     model: str
-    mileage: int
-    zip_code: int
+    mileage: str
+    zip_code: str
 
 
 class AppraisalResponse(Base):

@@ -1,6 +1,7 @@
 from typing import Optional
 from model.base import Base
 
+
 class Features(Base):
     convenience: Optional[list[str]] = None
     entertainment: Optional[list[str]] = None

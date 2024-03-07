@@ -19,7 +19,9 @@ def check_api_key(
     token = credentials.credentials
     logger.info("token: {}".format(token))
     if token is None:
-        raise HTTPException(status_code=401, detail="Please provide an API key")
+        raise HTTPException(
+            status_code=401, detail="Please provide an API key"
+        )
 
     # Decode the JWT token using the secret key
     try:
@@ -33,7 +35,9 @@ def check_api_key(
 
 
 @admin_router.post("/v1/example", response_model=AdminResponse)
-def admin_example(request: AdminRequest, api_key: str = Depends(check_api_key)):
+def admin_example(
+    request: AdminRequest, api_key: str = Depends(check_api_key)
+):
     # Interperet request values
     message = str(request.flag)
     # Return response in shape of Response object defined with the above pydantic model

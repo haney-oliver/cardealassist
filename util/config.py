@@ -7,7 +7,8 @@ settings = Dynaconf(
 
 # `envvar_prefix` = export envvars with `export DYNACONF_FOO=bar`.
 # `settings_files` = Load these files in the order.
-
+CAR_API_TOKEN = settings.get("CAR_API_TOKEN")
+CAR_API_SECRET = settings.get("CAR_API_SECRET")
 
 firebase_config = {
     "apiKey": settings.get("API_KEY"),

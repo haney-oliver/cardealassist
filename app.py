@@ -29,11 +29,11 @@ async def custom_swagger_ui_html(req: Request):
     )
 
 
-@app.middleware("http")
-async def log_request(request, call_next):
-    response = await call_next(request)
-    logger.info(
-        request.method + " " + request.url.path,
-        extra={"extra_info": get_extra_info(request)},
-    )
-    return response
+# @app.middleware("http")
+# async def log_request(request, call_next):
+#     response = await call_next(request)
+#     logger.info(
+#         request.method + " " + request.url.path,
+#         extra={"extra_info": get_extra_info(request)},
+#     )
+#     return response

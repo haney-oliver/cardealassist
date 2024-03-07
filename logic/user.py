@@ -8,12 +8,17 @@ from model.user import (
 )
 from util.logging_utils import logger
 
+
 def register_user(user: User, collection: Collection) -> RegistrationResponse:
     result: InsertOneResult = collection.insert_one(document=user.model_dump())
     if result.inserted_id:
-        return RegistrationResponse(success=True, message="User created successfully!")
+        return RegistrationResponse(
+            success=True, message="User created successfully!"
+        )
     else:
-        return RegistrationResponse(success=False, message="Failed to create user.")
+        return RegistrationResponse(
+            success=False, message="Failed to create user."
+        )
 
 
 def login_user(req: LoginRequest, collection: Collection) -> LoginResponse:
